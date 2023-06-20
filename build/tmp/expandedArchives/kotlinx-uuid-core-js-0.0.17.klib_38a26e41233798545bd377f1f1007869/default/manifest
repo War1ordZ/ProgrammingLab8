@@ -1,0 +1,8 @@
+builtins_platform=JS
+unique_name=app.softwork\:kotlinx-uuid-core
+compiler_version=1.7.10
+depends=org.jetbrains.kotlinx\:kotlinx-serialization-core kotlin
+jsOutputName=kotlinx-uuid-kotlinx-uuid-core
+abi_version=1.7.0
+metadata_version=1.4.1
+ir_version=1.0.0

@@ -1,0 +1,8 @@
+builtins_platform=JS
+unique_name=com.armemius\:Lab8
+compiler_version=1.8.0
+depends=app.softwork\:routing-compose org.jetbrains.compose.web\:web-core org.jetbrains.compose.web\:internal-web-core-runtime org.jetbrains.compose.runtime\:runtime org.jetbrains.kotlinx\:kotlinx-coroutines-core app.softwork\:kotlinx-uuid-core org.jetbrains.kotlinx\:atomicfu org.jetbrains.kotlinx\:kotlinx-serialization-core kotlin org.jetbrains.kotlin\:kotlinx-atomicfu-runtime
+jsOutputName=Lab8
+abi_version=1.7.0
+metadata_version=1.4.1
+ir_version=1.0.0

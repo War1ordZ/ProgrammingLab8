@@ -1,0 +1,78 @@
+{
+  "version": "9",
+  "items": {
+    "f447c0c56abf53f21fcbcf9971d40c5f": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.8.0/f7197e7cc76453ac59f8b0f8d5137cc600becd36/kotlin-stdlib-common-1.8.0.jar"
+    },
+    "9a9ac65ef95054b26ff40b74df6af625": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-js/1.8.0/b4f5f83089cbb70f0b6d81ecffbf3cbf13f4a8b9/kotlin-stdlib-js-1.8.0.jar",
+      "target": "kotlin/1.8.0"
+    },
+    "1dae3f05aac0ae0c8b4c7f3020b33d20": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.web/web-core-js/1.3.0/a21cb823da1000727d6d02ebdbbe59bfab5be30c/web-core-js-1.3.0.klib"
+    },
+    "250c22efbac1111f36a05c0e2b4989cd": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.web/internal-web-core-runtime-js/1.3.0/bf21be9bff3cb72e33403c180da6b4e675dd209d/internal-web-core-runtime-js-1.3.0.klib"
+    },
+    "ef9346f219141f1e06965733c8bb5087": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.runtime/runtime-js/1.3.0/bd958fc8b5214c341b961928e50dde98a75242a4/runtime-js-1.3.0.klib"
+    },
+    "87b37b026e9680692b36e7c4c08334c2": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-js/1.6.4/791d62c16e6fad7cc9b1e6fafe88a3d454744d99/kotlinx-coroutines-core-jsir-1.6.4.klib"
+    },
+    "489089308e6bacd4b18fc93c501bb01c": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/atomicfu-js/0.17.3/5fd992f78532945e29a1c54279eafffe2a0c95fe/atomicfu-jsir-0.17.3.klib"
+    },
+    "68b4fc3260b20bef86b65f0a39fae75a": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/atomicfu/1.6.21/f486917a9c89e5c7d5d08009d58ad810a57a7011/atomicfu-1.6.21.jar"
+    },
+    "1ac085e2f277a9a2ed0382b398248c53": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js-runner/1.8.0/b4f77e5ecd9c56fc312d90cb0ab919ee452dfb4/kotlin-test-js-runner-1.8.0.jar",
+      "target": "kotlin-test-js-runner/1.8.0"
+    },
+    "0a62abb6cf08e01efcae03737e0423a2": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-test-js/1.8.0/3af4dadff9462ba38f857b60a1352d5fec65d100/kotlin-test-js-1.8.0.jar",
+      "target": "kotlin-test/1.8.0"
+    },
+    "28c21355ba47ff9fb38ca21bcfa14482": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.runtime/runtime-js/1.4.0-rc03/a307006b4c86c04758dae5040f80d2d9cd46a79f/runtime-js-1.4.0-rc03.klib"
+    },
+    "0cb0e61e081d92e66b0158327b9feb42": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-js/1.8.20/a107ac66653b98eb0d70f6b328e08bd86dbe4f57/kotlin-stdlib-js-1.8.20.jar",
+      "target": "kotlin/1.8.20"
+    },
+    "23c2e72b0a4e6406a275954a020fea0b": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.8.20/5eddaaf234c8c49d03eebeb6a14feb7f90faca71/kotlin-stdlib-common-1.8.20.jar"
+    },
+    "8af1ccf31866eb9814e2d9144889581b": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/app.softwork/routing-compose-js/0.2.12/4589efb2efaf2c1e6f205ace150ed3a713f1cd3d/routing-compose-js-0.2.12.klib"
+    },
+    "f24721219976b47b665006b18625733e": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.html/html-core-js/1.4.0-rc03/fe0c57831f55e1e8ac2e9ced5d9d903e4d9e8fd5/html-core-js-1.4.0-rc03.klib"
+    },
+    "c8bca6b819020871520f09b0b312c4a5": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.compose.html/internal-html-core-runtime-js/1.4.0-rc03/a24644b951ac074b12c03b23c2ed35eed7625ce0/internal-html-core-runtime-js-1.4.0-rc03.klib"
+    },
+    "8562c262211f5a213e61695c8a4a716a": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/app.softwork/kotlinx-uuid-core-js/0.0.18/54220351f88c0a2a59131ca6e2fa4a59dc33f5ea/kotlinx-uuid-core-js-0.0.18.klib"
+    },
+    "4f4ba3f168f694ce1b97f5723e3db709": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-core-js/1.5.0/e91daf4cf7ef20fc81765b4a12df30a0c14a6acb/kotlinx-serialization-core-jsir-1.5.0.klib"
+    },
+    "165cfc8cbc2d94f89581f99b3c29ab0c": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/app.softwork/routing-compose-js/0.2.11/38e52fd32a6a1e4fadffebba27ad5ad6a74356be/routing-compose-js-0.2.11.klib"
+    },
+    "38a26e41233798545bd377f1f1007869": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/app.softwork/kotlinx-uuid-core-js/0.0.17/3ae8a086e924707036ef60b3236231edae8b2192/kotlinx-uuid-core-js-0.0.17.klib"
+    },
+    "627bdde88d1b9274aff279e0440c728b": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-serialization-core-js/1.4.0/b1dd2933343e8f054002ac1c6937a814c38220df/kotlinx-serialization-core-jsir-1.4.0.klib"
+    },
+    "b489ca8e6e5ac0df8ba30bdcf2a2e2a7": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.7.5/7a15a7db50f86c4b64aa3367424a60e3a325b8f1/okhttp-2.7.5.jar"
+    },
+    "6856802623e6520bc555f0673f04e42f": {
+      "src": "/home/armemius/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
+    }
+  }
+}
