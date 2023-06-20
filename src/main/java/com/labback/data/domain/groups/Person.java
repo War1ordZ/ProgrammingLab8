@@ -45,5 +45,4 @@ public class Person {
     @JoinColumn(name = "location_id")
     @JsonProperty("location")
     private Location location;
-
 }

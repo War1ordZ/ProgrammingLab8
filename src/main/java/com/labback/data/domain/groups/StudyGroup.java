@@ -53,4 +53,6 @@ public class StudyGroup {
     @OneToOne
     @JoinColumn(name = "admin_id")
     private Person groupAdmin;
+
+    private String owner;
 }

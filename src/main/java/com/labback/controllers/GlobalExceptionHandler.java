@@ -1,6 +1,7 @@
 package com.labback.controllers;
 
 import com.labback.data.dto.ErrorResponseDTO;
+import com.labback.exceptions.GroupNotBelongToUserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -8,17 +9,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    public ResponseEntity<?> handleJwtIncorrectException(AuthenticationCredentialsNotFoundException e){
-        String errorMessage = "Authentication failed. JWT incorrect";
+    @ExceptionHandler(GroupNotBelongToUserException.class)
+    public ResponseEntity<?> handleJwtIncorrectException(GroupNotBelongToUserException e){
+        String errorMessage = "Aces denied. Different owner";
         ErrorResponseDTO error = ErrorResponseDTO.builder()
                 .message(errorMessage)
                 .build();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
     }
 
 }

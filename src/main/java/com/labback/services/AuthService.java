@@ -1,5 +1,6 @@
 package com.labback.services;
 
+import com.labback.jwt.JwtProvider;
 import com.labback.data.domain.users.Role;
 import com.labback.data.domain.users.User;
 import com.labback.data.dto.UserDTO;
@@ -13,13 +14,18 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
 
-    public void save(UserDTO userDTO) {
+    public void register(UserDTO userDTO) {
         User user = User.builder()
                 .username(userDTO.getUsername())
                 .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
+    }
+
+    public String getUsernameFromToken(String token) {
+        return jwtProvider.getUsernameFromJwt(token);
     }
 }

@@ -1,4 +1,4 @@
-package com.labback.components;
+package com.labback.jwt;
 
 import com.labback.constants.SecurityConstants;
 import io.jsonwebtoken.Claims;
@@ -26,7 +26,6 @@ public class JwtProvider {
     }
 
     public String getUsernameFromJwt(String token) {
-
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SecurityConstants.JWT_SECRET)
                 .build()
