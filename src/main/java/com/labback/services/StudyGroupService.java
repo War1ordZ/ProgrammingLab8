@@ -41,7 +41,8 @@ public class StudyGroupService {
         groupRepository.save(group);
     }
 
-    public void deleteGroupById(Long id) {
+    public void deleteGroupById(Long id, String username) {
+        checkBelonging(id, username);
         StudyGroup group = groupRepository.findFirstById(id);
         groupRepository.delete(group);
         Coordinates coordinates = group.getCoordinates();
@@ -66,10 +67,7 @@ public class StudyGroupService {
     }
 
     public void updateGroupById(StudyGroup group, Long id) {
-        String groupOwner = groupRepository.findFirstById(id).getOwner();
-        if(!groupOwner.equals(group.getOwner())){
-            throw new GroupNotBelongToUserException("Aces denied");
-        }
+        checkBelonging(id, group);
         groupRepository.updateNameById(id, group.getName());
         groupRepository.updateFormOfEducation(id, group.getFormOfEducation());
         groupRepository.updateSemesterEnum(id, group.getSemesterEnum());
@@ -88,5 +86,19 @@ public class StudyGroupService {
         locationRepository.updateX(id, newCoordinates.getX());
         locationRepository.updateY(id, newLocation.getY());
         locationRepository.updateZ(id, newLocation.getZ());
+    }
+
+    private void checkBelonging(Long id, StudyGroup newGroup){
+        String groupOwner = groupRepository.findFirstById(id).getOwner();
+        if(!groupOwner.equals(newGroup.getOwner())){
+            throw new GroupNotBelongToUserException("Aces denied");
+        }
+    }
+
+    private void checkBelonging(Long id, String username){
+        String groupOwner = groupRepository.findFirstById(id).getOwner();
+        if(!groupOwner.equals(username)){
+            throw new GroupNotBelongToUserException("Aces denied");
+        }
     }
 }

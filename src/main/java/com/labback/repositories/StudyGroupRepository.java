@@ -22,9 +22,6 @@ public interface StudyGroupRepository extends JpaRepository<StudyGroup, Long> {
     List<Integer> findAllIds();
     @Override
     void deleteById(@NotNull Long id);
-    Long getPersonIdById(Long id);
-
-    Long getCoordinatesIdById(Long id);
 
     @Modifying
     @Transactional

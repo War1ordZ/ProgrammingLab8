@@ -22,10 +22,9 @@ public class StudyGroupController {
             @Valid @RequestBody StudyGroup group,
             @RequestHeader("Authorization") String authorizationHeader){
 
-        String jwtToken = authorizationHeader.replace("Bearer ", "");
-        String username = authService.getUsernameFromToken(jwtToken);
+        String username = getUsernameFromHeader(authorizationHeader);
         group.setOwner(username);
-
+        group.setId(null);
         groupService.saveGroup(group);
         return ResponseEntity.ok("Saved");
     }
@@ -41,24 +40,37 @@ public class StudyGroupController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<?> getPageGroups(@RequestParam int page, @RequestParam int size){
+    public ResponseEntity<?> getPageGroups(@RequestParam int page,
+                                           @RequestParam(defaultValue = "50") int size){
         Pageable pageable = PageRequest.of(page, size);
         var groupPage = groupService.getPageGroups(pageable);
         return ResponseEntity.ok(groupPage);
     }
 
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<?> updateGroupById(@Valid @RequestBody StudyGroup group,
                                              @PathVariable("id") Long id,
                                              @RequestHeader("Authorization") String authorizationHeader){
 
-        String jwtToken = authorizationHeader.replace("Bearer ", "");
-        String username = authService.getUsernameFromToken(jwtToken);
+        String username = getUsernameFromHeader(authorizationHeader);
         group.setOwner(username);
         group.setId(id);
         groupService.updateGroupById(group, id);
         return ResponseEntity.ok(group);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteGroupById(@PathVariable("id") Long id,
+                                             @RequestHeader("Authorization") String authorizationHeader
+                                             ){
+        String username = getUsernameFromHeader(authorizationHeader);
+        groupService.deleteGroupById(id, username);
+        return ResponseEntity.ok("Deleted");
+    }
+
+    private String getUsernameFromHeader(String authorizationHeader){
+        String jwtToken = authorizationHeader.replace("Bearer ", "");
+        return authService.getUsernameFromToken(jwtToken);
+    }
 }
