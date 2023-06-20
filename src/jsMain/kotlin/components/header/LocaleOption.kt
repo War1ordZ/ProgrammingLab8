@@ -1,5 +1,6 @@
 package components.header
 
+import Cookies
 import Languages
 import StateManager
 import androidx.compose.runtime.*
@@ -15,7 +16,7 @@ fun localeOption(target: Languages) {
         classes("locale-option", "centered-container")
         onClick {
             locale = target
-            setCookie("lang", target.name)
+            setCookie(Cookies.LANG, target.name)
         }
     }) {
         Text(target.nativeName)

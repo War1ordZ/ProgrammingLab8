@@ -7,21 +7,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
+import router.Routes
 
 @Composable
 fun header() {
     val user by remember { StateManager.user }
     Div (attrs = {classes("header")}) {
         Div (attrs = {classes("row-container")}) {
-            headerButton("Main", "/")
-            headerButton("Table", "/table")
-            headerButton("Overview", "/overview")
+            headerButton("Main", Routes.MAIN, 0)
+            headerButton("Table", Routes.TABLE, 1)
+            headerButton("Overview", Routes.OVERVIEW, 2)
         }
         Div (attrs = {classes("row-container")}) {
             localeButton()
             Div (attrs = {classes("user-indicator", "centered-container")}) {
-                Text(if (user == null) "N/A" else user.toString())
+                Text(if (user == null) "Not authorized" else user.toString())
             }
+            logoutButton()
         }
     }
 }
