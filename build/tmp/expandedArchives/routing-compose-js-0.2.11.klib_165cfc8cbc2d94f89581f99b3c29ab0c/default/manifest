@@ -1,8 +1,0 @@
-builtins_platform=JS
-unique_name=app.softwork\:routing-compose
-compiler_version=1.8.0
-depends=org.jetbrains.compose.web\:web-core org.jetbrains.compose.web\:internal-web-core-runtime org.jetbrains.compose.runtime\:runtime app.softwork\:kotlinx-uuid-core org.jetbrains.kotlinx\:kotlinx-coroutines-core org.jetbrains.kotlinx\:kotlinx-serialization-core org.jetbrains.kotlinx\:atomicfu kotlin org.jetbrains.kotlin\:kotlinx-atomicfu-runtime
-jsOutputName=routing-compose
-abi_version=1.7.0
-metadata_version=1.4.1
-ir_version=1.0.0
