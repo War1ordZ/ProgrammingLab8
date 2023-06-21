@@ -30,17 +30,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(authEntryPoint)
+                .exceptionHandling()
+                .authenticationEntryPoint(authEntryPoint)
                 .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .cors()
                 .and()
-                    .authorizeHttpRequests()
-                    .requestMatchers("/auth/login","/auth/register").permitAll()
-                    .anyRequest().authenticated();
+                .authorizeHttpRequests()
+                .requestMatchers("/auth/login", "/auth/register","/websocket").permitAll()
+                .anyRequest().authenticated();
         http.
                 addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -49,12 +49,12 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception{
+            AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthFilter(){
+    public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter();
     }
 

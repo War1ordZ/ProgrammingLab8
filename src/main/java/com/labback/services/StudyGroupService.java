@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,9 +37,20 @@ public class StudyGroupService {
         person.setLocation(personLocation);
         personRepository.save(person);
         group.setGroupAdmin(person);
-
+        group.setCreationDate(
+                new SimpleDateFormat("yyyy/MM/dd")
+                .format(new Date()));
 
         groupRepository.save(group);
+    }
+
+    public void deleteAllByOwner(String owner) {
+        List<Long> ids = new ArrayList<>();
+        groupRepository.findAllByOwner(owner).forEach(x -> {
+            Long id = x.getId();
+            ids.add(id);
+        });
+        ids.forEach(x -> deleteGroupById(x, owner));
     }
 
     public void deleteGroupById(Long id, String username) {

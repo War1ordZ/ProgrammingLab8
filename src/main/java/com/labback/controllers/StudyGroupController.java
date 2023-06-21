@@ -1,5 +1,6 @@
 package com.labback.controllers;
 
+import com.labback.components.WebSocketHandler;
 import com.labback.data.domain.groups.StudyGroup;
 import com.labback.services.AuthService;
 import com.labback.services.StudyGroupService;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +19,7 @@ import java.net.URI;
 public class StudyGroupController {
     private final StudyGroupService groupService;
     private final AuthService authService;
+    private final WebSocketHandler webSocketHandler;
 
     @PostMapping("/add")
     public ResponseEntity<?> addGroup(
@@ -29,6 +30,7 @@ public class StudyGroupController {
         group.setOwner(username);
         group.setId(null);
         groupService.saveGroup(group);
+        webSocketHandler.sendUpdateToClients();
         return ResponseEntity.ok("Saved");
     }
 
@@ -62,23 +64,31 @@ public class StudyGroupController {
         group.setOwner(username);
         group.setId(id);
         groupService.updateGroupById(group, id);
+        webSocketHandler.sendUpdateToClients();
         return ResponseEntity.ok(group);
     }
+
     @GetMapping("/filter/{semester}")
-    public ResponseEntity<?> getAllBySemester(@PathVariable("semester")  String semester){
+    public ResponseEntity<?> getAllBySemester(@PathVariable("semester") String semester) {
         var filteredGroups = groupService.getAllBySemester(semester);
         return ResponseEntity.ok(filteredGroups);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGroupById(@PathVariable("id") Long id,
-                                             @RequestHeader("Authorization") String authorizationHeader
-    ) {
+                                             @RequestHeader("Authorization") String authorizationHeader) {
         String username = getUsernameFromHeader(authorizationHeader);
         groupService.deleteGroupById(id, username);
+        webSocketHandler.sendUpdateToClients();
         return ResponseEntity.ok("Deleted");
     }
-
+    @DeleteMapping("/all")
+    public ResponseEntity<?> deleteAllByOwner(@RequestHeader("Authorization") String authorizationHeader){
+        String owner = getUsernameFromHeader(authorizationHeader);
+        groupService.deleteAllByOwner(owner);
+        webSocketHandler.sendUpdateToClients();
+        return ResponseEntity.ok("Deleted");
+    }
     private String getUsernameFromHeader(String authorizationHeader) {
         String jwtToken = authorizationHeader.replace("Bearer ", "");
         return authService.getUsernameFromToken(jwtToken);

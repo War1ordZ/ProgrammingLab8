@@ -1,8 +1,8 @@
 package com.labback.controllers;
 
-import com.labback.jwt.JwtProvider;
 import com.labback.data.dto.AuthResponseDTO;
 import com.labback.data.dto.UserDTO;
+import com.labback.jwt.JwtProvider;
 import com.labback.repositories.UserRepository;
 import com.labback.services.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ public class AuthController {
 
     @GetMapping("/username")
     public ResponseEntity<?> getUsernameFromToken(
-            @RequestHeader("Authorization") String authorizationHeader){
+            @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.replace("Bearer ", "");
         String username = authService.getUsernameFromToken(jwtToken);
         return ResponseEntity.ok(username);

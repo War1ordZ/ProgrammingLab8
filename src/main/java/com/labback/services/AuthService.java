@@ -1,9 +1,9 @@
 package com.labback.services;
 
-import com.labback.jwt.JwtProvider;
 import com.labback.data.domain.users.Role;
 import com.labback.data.domain.users.User;
 import com.labback.data.dto.UserDTO;
+import com.labback.jwt.JwtProvider;
 import com.labback.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

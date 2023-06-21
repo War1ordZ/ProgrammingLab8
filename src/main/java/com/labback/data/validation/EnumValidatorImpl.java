@@ -1,10 +1,11 @@
 package com.labback.data.validation;
-import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class EnumValidatorImpl implements ConstraintValidator<EnumValidator, String> {

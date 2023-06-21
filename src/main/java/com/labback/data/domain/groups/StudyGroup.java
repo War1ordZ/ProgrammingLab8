@@ -1,6 +1,5 @@
 package com.labback.data.domain.groups;
 
-import com.labback.data.validation.EnumValidator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -10,15 +9,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-import java.time.format.DateTimeFormatter;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="study_group")
+@Table(name = "study_group")
 public class StudyGroup {
     private static final String SEQ_NAME = "study_groups_id_seq";
 
@@ -36,7 +32,6 @@ public class StudyGroup {
     @JoinColumn(name = "coordinates_id")
     private Coordinates coordinates;
 
-    @NotNull
     private String creationDate;
 
     @Min(value = 1, message = "Students count must be greater than 0")

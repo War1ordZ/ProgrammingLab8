@@ -28,6 +28,8 @@ public interface StudyGroupRepository extends JpaRepository<StudyGroup, Long> {
 
     List<StudyGroup> findAllBySemesterEnum(Semester semester);
 
+    List<StudyGroup> findAllByOwner(String owner);
+
     @Modifying
     @Transactional
     @Query("UPDATE StudyGroup sg SET sg.name = :newName WHERE sg.id = :id")

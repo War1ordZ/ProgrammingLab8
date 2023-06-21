@@ -2,8 +2,6 @@ package com.labback.repositories;
 
 import com.labback.data.domain.groups.Color;
 import com.labback.data.domain.groups.Person;
-import com.labback.data.domain.groups.StudyGroup;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Long getLocationIdById(Long id);
+
     @Modifying
     @Transactional
     @Query("UPDATE Person p SET p.name = :name WHERE p.id = :id")
     void updateName(@Param("id") Long id, @Param("name") String name);
+
     @Modifying
     @Transactional
     @Query("UPDATE Person p SET p.weight = :weight WHERE p.id = :id")

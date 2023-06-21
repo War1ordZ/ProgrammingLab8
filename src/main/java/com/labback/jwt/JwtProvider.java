@@ -41,7 +41,7 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new AuthenticationCredentialsNotFoundException("Jwt incorrect");
         }
     }

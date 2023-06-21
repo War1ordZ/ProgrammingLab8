@@ -1,8 +1,6 @@
 package com.labback.repositories;
 
 import com.labback.data.domain.groups.Location;
-import com.labback.data.domain.groups.StudyGroup;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
