@@ -1,14 +1,21 @@
 package components.table
 
+import StateManager
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import components.table.menu.Menu
 import data.groups.StudyGroup
-import org.jetbrains.compose.web.dom.B
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.*
+import removeGroup
 
 @Composable
 fun tableRow(group: StudyGroup) {
+    val token by remember { StateManager.token }
+    val username by remember { StateManager.user }
+    var activeGroup by remember { StateManager.activeGroup }
+    var activeMenu by remember { StateManager.activeMenu }
     Div(attrs = { classes("table-row") }) {
         Div(attrs = { classes("table-row-group-info") }) {
             Span { Text("ID: ${group.id}") }
@@ -47,7 +54,21 @@ fun tableRow(group: StudyGroup) {
         Div(attrs = { classes("table-row-group-config") }) {
             Span { Text("Created: ${group.creationDate}") }
             Span { Text("Owner: ${group.owner}") }
-            Span () { Text("Owner: ${group.owner}") }
+            if (group.owner == username) {
+                Span (attrs = {
+                    classes("table-row-group-config-button")
+                    onClick {
+                        activeGroup = group
+                        activeMenu = Menu.UPDATE
+                    }
+                }) { Img(src = "/icons/pencil.svg") }
+                Span (attrs = {
+                    classes("table-row-group-config-button")
+                    onClick {
+                        removeGroup(group.id!!, token!!)
+                    }
+                }) { Img(src = "/icons/trash.svg") }
+            }
         }
     }
 }

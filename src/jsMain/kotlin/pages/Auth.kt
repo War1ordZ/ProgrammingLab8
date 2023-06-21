@@ -4,6 +4,7 @@ import Cookies
 import StateManager
 import androidx.compose.runtime.*
 import authRequest
+import bindWebSocket
 import data.TokenData
 import data.groups.*
 import org.jetbrains.compose.web.attributes.InputType
@@ -77,6 +78,7 @@ fun authPage() {
                 appGroups = groupList
                 println("Request finished ${appGroups.size} to ${groupList.size}")
             }}
+            bindWebSocket(token!!, onSuccess)
             requestAllGroups(token!!, onSuccess)
             setCookie(Cookies.TOKEN, tokenData.accessToken)
             setCookie(Cookies.TOKEN_TYPE, tokenData.tokenType)

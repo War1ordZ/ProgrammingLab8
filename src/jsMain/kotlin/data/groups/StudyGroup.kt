@@ -73,4 +73,16 @@ class StudyGroup {
                 field = value
             }
         }
+
+    fun getJson(): String {
+        return "{\"id\":${id},\"name\":\"${name}\"," +
+                "\"coordinates\":{\"x\":${coordinates!!.x}, \"y\":${coordinates!!.y}}," +
+                "\"creationDate\":null,\"studentsCount\":${studentsCount}," +
+                "\"formOfEducation\":${if (formOfEducation == null) "null" else "\"${formOfEducation}\""}," +
+                "\"semesterEnum\":\"${semesterEnum}\"," +
+                "\"groupAdmin\": {\"name\":\"${groupAdmin!!.name}\", \"weight\":${groupAdmin!!.weight}," +
+                "\"eyeColor\":\"${groupAdmin!!.eyeColor}\", \"location\":{" +
+                "\"x\":${groupAdmin!!.location!!.x}, \"y\":${groupAdmin!!.location!!.y}" +
+                ", \"z\":${groupAdmin!!.location!!.z}}}}"
+    }
 }

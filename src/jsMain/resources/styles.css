@@ -34,6 +34,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 500;
 }
 
 .header-button {
@@ -227,7 +228,7 @@
 .table-row-group-info {
     height: 100%;
     display: grid;
-    grid-template-columns: 100px 150px 200px 200px;
+    grid-template-columns: 100px 300px 200px 200px;
 }
 
 .table-row-group-info span {
@@ -240,7 +241,7 @@
 .table-row-group-config {
     height: 100%;
     display: grid;
-    grid-template-columns: 250px 200px
+    grid-template-columns: 250px 200px 40px 40px
 }
 
 .table-row-group-config span {
@@ -248,6 +249,25 @@
     align-items: center;
     margin: 0 10px;
     font-size: 20px;
+}
+
+.table-row-group-config-button {
+    visibility: hidden;
+    cursor: pointer;
+    opacity: 70%;
+}
+
+.table-row:hover .table-row-group-config-button {
+    visibility: visible;
+}
+
+.table-row-group-config-button:hover {
+    opacity: 100%;
+}
+
+.table-row-group-config-button img {
+    width: 25px;
+    height: 25px;
 }
 
 .group-info-panel {
@@ -273,6 +293,119 @@
     opacity: 100%;
 }
 
+.operation-buttons-container {
+    display: flex;
+}
+
+.operation-button {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    opacity: 85%;
+    cursor: pointer;
+    position: relative;
+}
+.operation-button div {
+    position: absolute;
+    top: 0;
+    left: 30px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.68);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s all;
+}
+
+.operation-button:hover div {
+    visibility: visible;
+    opacity: 100%;
+    z-index: 1500;
+}
+
+.operation-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.operation-button:hover {
+    opacity: 100%;
+}
+
 .group-info-header {
     margin-bottom: 15px;
+}
+
+.background-filter {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 2500;
+}
+
+.menu {
+    width: 400px;
+    height: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid black;
+    z-index: 2500;
+}
+
+.vertical-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.distinct-option {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.menu-header {
+    margin: 10px 10px 30px 10px;
+    width: 100%;
+    height: 40px;
+}
+
+.full-screen-container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 2400;
+}
+
+.menu div {
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu-error-message {
+    color: red;
+}
+
+.menu select, .menu input {
+    width: 175px;
+}
+
+.menu-button {
+    width: 110px;
+    height: 60px;
+    background: white;
+    color: black;
+    font-size: 18px;
+    padding: 0 10px;
+    margin: 15px;
+    transition: 0.2s all;
+    cursor: pointer;
+    border: 2px solid black;
+}
+
+.menu-button:hover {
+    background: black;
+    color: white;
 }

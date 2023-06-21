@@ -36,6 +36,46 @@ fun restoreData() {
 
     val accessToken = getCookie(Cookies.TOKEN)
     val tokenType = getCookie(Cookies.TOKEN_TYPE)
+    val loadGroups = { xhr: XMLHttpRequest -> { ev: Event ->
+        println(xhr.responseText)
+        val jsonArray: Array<Json> = JSON.parse(xhr.responseText)
+        val groupList: MutableList<StudyGroup> = mutableListOf()
+        jsonArray.forEach {
+                json ->
+            val coordinateJson: Json = JSON.parse(JSON.stringify(json["coordinates"]))
+            val coordinates = Coordinates(
+                x = coordinateJson["x"].toString().toFloat(),
+                y = coordinateJson["y"].toString().toLong()
+            )
+            val adminJson: Json = JSON.parse(JSON.stringify(json["groupAdmin"]))
+            val locationJson: Json = JSON.parse(JSON.stringify(adminJson["location"]))
+            val location = Location(
+                x = locationJson["x"].toString().toFloat(),
+                y = locationJson["y"].toString().toInt(),
+                z = locationJson["z"].toString().toInt()
+            )
+            val admin = Person(
+                name = adminJson["name"].toString(),
+                weight = adminJson["weight"].toString().toLong(),
+                eyeColor = Color.valueOf((adminJson["eyeColor"].toString())),
+                location = location
+            )
+            val group = StudyGroup(
+                id = json["id"].toString().toLong(),
+                coordinates = coordinates,
+                creationDate = json["creationDate"].toString(),
+                formOfEducation = FormOfEducation.valueOfOrNull(json["formOfEducation"].toString()),
+                groupAdmin = admin,
+                name = json["name"].toString(),
+                owner = json["owner"].toString(),
+                semesterEnum = Semester.valueOf(json["semesterEnum"].toString()),
+                studentsCount = json["studentsCount"].toString().toInt()
+            )
+            groupList.add(group)
+        }
+        appGroups = groupList
+        println("Request finished ${appGroups.size} to ${groupList.size}")
+    }}
     if (accessToken != null && tokenType != null) {
             token = TokenData(accessToken, tokenType)
             val onSuccess: (XMLHttpRequest) -> ((Event) -> Unit)= { xhr -> {
@@ -43,47 +83,8 @@ fun restoreData() {
                     if (xhr.status == 200.toShort()) {
                         auth = true
                         user = xhr.responseText
-                        val onSuccess = { xhr: XMLHttpRequest -> { ev: Event ->
-                            println(xhr.responseText)
-                            val jsonArray: Array<Json> = JSON.parse(xhr.responseText)
-                            val groupList: MutableList<StudyGroup> = mutableListOf()
-                            jsonArray.forEach {
-                                    json ->
-                                val coordinateJson: Json = JSON.parse(JSON.stringify(json["coordinates"]))
-                                val coordinates = Coordinates(
-                                    x = coordinateJson["x"].toString().toFloat(),
-                                    y = coordinateJson["y"].toString().toLong()
-                                )
-                                val adminJson: Json = JSON.parse(JSON.stringify(json["groupAdmin"]))
-                                val locationJson: Json = JSON.parse(JSON.stringify(adminJson["location"]))
-                                val location = Location(
-                                    x = locationJson["x"].toString().toFloat(),
-                                    y = locationJson["y"].toString().toInt(),
-                                    z = locationJson["z"].toString().toInt()
-                                )
-                                val admin = Person(
-                                    name = adminJson["name"].toString(),
-                                    weight = adminJson["weight"].toString().toLong(),
-                                    eyeColor = Color.valueOf((adminJson["eyeColor"].toString())),
-                                    location = location
-                                )
-                                val group = StudyGroup(
-                                    id = json["id"].toString().toLong(),
-                                    coordinates = coordinates,
-                                    creationDate = json["creationDate"].toString(),
-                                    formOfEducation = FormOfEducation.valueOfOrNull(json["formOfEducation"].toString()),
-                                    groupAdmin = admin,
-                                    name = json["name"].toString(),
-                                    owner = json["owner"].toString(),
-                                    semesterEnum = Semester.valueOf(json["semesterEnum"].toString()),
-                                    studentsCount = json["studentsCount"].toString().toInt()
-                                )
-                                groupList.add(group)
-                            }
-                            appGroups = groupList
-                            println("Request finished ${appGroups.size} to ${groupList.size}")
-                        }}
-                        requestAllGroups(token!!, onSuccess)
+                        bindWebSocket(token!!, loadGroups)
+                        requestAllGroups(token!!, loadGroups)
                     } else {
                         auth = false
                     }

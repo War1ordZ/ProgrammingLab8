@@ -7,6 +7,9 @@ enum class FormOfEducation {
 
     companion object {
         fun valueOfOrNull(name: String): FormOfEducation? {
+            if (name == "null") {
+                return null
+            }
             return try {
                 FormOfEducation.valueOf(name)
             } catch (ex: IllegalArgumentException) {

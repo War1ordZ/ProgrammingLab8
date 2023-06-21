@@ -21,7 +21,7 @@ fun headerButton(text: String, link: String, id: Int) {
             console.log(currentId)
         }
     }) {
-        Div (attrs = {classes("header-button", "centered-container", if (id == currentId) "active" else "incative")}) {
+        Div (attrs = {classes("header-button", "centered-container", if (id == currentId) "active" else "inactive")}) {
             Text(text)
         }
     }
