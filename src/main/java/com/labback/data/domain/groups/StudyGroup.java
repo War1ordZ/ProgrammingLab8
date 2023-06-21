@@ -36,7 +36,6 @@ public class StudyGroup {
     @JoinColumn(name = "coordinates_id")
     private Coordinates coordinates;
 
-
     @NotNull
     private String creationDate;
 

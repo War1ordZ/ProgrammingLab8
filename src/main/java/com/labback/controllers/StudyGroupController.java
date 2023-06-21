@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class StudyGroupController {
     private final StudyGroupService groupService;
     private final AuthService authService;
+
     @PostMapping("/add")
     public ResponseEntity<?> addGroup(
             @Valid @RequestBody StudyGroup group,
-            @RequestHeader("Authorization") String authorizationHeader){
+            @RequestHeader("Authorization") String authorizationHeader) {
 
         String username = getUsernameFromHeader(authorizationHeader);
         group.setOwner(username);
@@ -28,20 +29,22 @@ public class StudyGroupController {
         groupService.saveGroup(group);
         return ResponseEntity.ok("Saved");
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getGroupById(@PathVariable Long id){
+    public ResponseEntity<?> getGroupById(@PathVariable Long id) {
         var group = groupService.getGroupById(id);
         return ResponseEntity.ok(group);
     }
+
     @GetMapping("/all")
-    public ResponseEntity<?> getAllGroups(){
+    public ResponseEntity<?> getAllGroups() {
         var groups = groupService.getAllGroups();
         return ResponseEntity.ok(groups);
     }
 
     @GetMapping("/page")
     public ResponseEntity<?> getPageGroups(@RequestParam int page,
-                                           @RequestParam(defaultValue = "50") int size){
+                                           @RequestParam(defaultValue = "50") int size) {
         Pageable pageable = PageRequest.of(page, size);
         var groupPage = groupService.getPageGroups(pageable);
         return ResponseEntity.ok(groupPage);
@@ -51,7 +54,7 @@ public class StudyGroupController {
     @PostMapping("/{id}")
     public ResponseEntity<?> updateGroupById(@Valid @RequestBody StudyGroup group,
                                              @PathVariable("id") Long id,
-                                             @RequestHeader("Authorization") String authorizationHeader){
+                                             @RequestHeader("Authorization") String authorizationHeader) {
 
         String username = getUsernameFromHeader(authorizationHeader);
         group.setOwner(username);
@@ -63,13 +66,13 @@ public class StudyGroupController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGroupById(@PathVariable("id") Long id,
                                              @RequestHeader("Authorization") String authorizationHeader
-                                             ){
+    ) {
         String username = getUsernameFromHeader(authorizationHeader);
         groupService.deleteGroupById(id, username);
         return ResponseEntity.ok("Deleted");
     }
 
-    private String getUsernameFromHeader(String authorizationHeader){
+    private String getUsernameFromHeader(String authorizationHeader) {
         String jwtToken = authorizationHeader.replace("Bearer ", "");
         return authService.getUsernameFromToken(jwtToken);
     }

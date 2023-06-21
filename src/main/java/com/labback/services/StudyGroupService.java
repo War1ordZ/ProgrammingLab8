@@ -1,9 +1,6 @@
 package com.labback.services;
 
-import com.labback.data.domain.groups.Coordinates;
-import com.labback.data.domain.groups.Location;
-import com.labback.data.domain.groups.Person;
-import com.labback.data.domain.groups.StudyGroup;
+import com.labback.data.domain.groups.*;
 import com.labback.exceptions.GroupNotBelongToUserException;
 import com.labback.repositories.CoordinatesRepository;
 import com.labback.repositories.LocationRepository;
@@ -14,7 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,7 @@ public class StudyGroupService {
     private final CoordinatesRepository coordinatesRepository;
     private final PersonRepository personRepository;
 
-    public void saveGroup(StudyGroup group) { //TODO group to DTO
+    public void saveGroup(StudyGroup group) {
         Coordinates coordinates = group.getCoordinates();
         coordinatesRepository.save(coordinates);
         group.setCoordinates(coordinates);
@@ -88,17 +91,21 @@ public class StudyGroupService {
         locationRepository.updateZ(id, newLocation.getZ());
     }
 
-    private void checkBelonging(Long id, StudyGroup newGroup){
+    public List<StudyGroup> findAllBySemester(Semester semester){
+        return groupRepository.findAllBySemesterEnum(semester);
+    }
+
+    private void checkBelonging(Long id, StudyGroup newGroup) {
         String groupOwner = groupRepository.findFirstById(id).getOwner();
-        if(!groupOwner.equals(newGroup.getOwner())){
-            throw new GroupNotBelongToUserException("Aces denied");
+        if (!groupOwner.equals(newGroup.getOwner())) {
+            throw new GroupNotBelongToUserException("Access denied");
         }
     }
 
-    private void checkBelonging(Long id, String username){
+    private void checkBelonging(Long id, String username) {
         String groupOwner = groupRepository.findFirstById(id).getOwner();
-        if(!groupOwner.equals(username)){
-            throw new GroupNotBelongToUserException("Aces denied");
+        if (!groupOwner.equals(username)) {
+            throw new GroupNotBelongToUserException("Access denied");
         }
     }
 }

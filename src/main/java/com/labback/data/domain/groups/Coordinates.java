@@ -17,10 +17,12 @@ public class Coordinates {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     @JsonIgnore
     private Long id;
+
     @NotNull
     @Min(value = -156, message = "Coordinate x might be greater than -156")
     @JsonProperty("x")
     private Float x;
+
     @NotNull
     @JsonProperty("y")
     private Long y;

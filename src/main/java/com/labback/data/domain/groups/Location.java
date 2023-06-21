@@ -18,12 +18,15 @@ public class Location {
     @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
     @JsonIgnore
     private Long id;
+
     @NotNull
     @JsonProperty("x")
     private float x;
+
     @NotNull
     @JsonProperty("y")
     private Integer y;
+
     @NotNull
     @JsonProperty("z")
     private int z;
