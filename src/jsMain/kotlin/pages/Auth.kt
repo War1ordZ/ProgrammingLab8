@@ -5,11 +5,13 @@ import StateManager
 import androidx.compose.runtime.*
 import authRequest
 import data.TokenData
+import data.groups.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.events.Event
 import org.w3c.xhr.XMLHttpRequest
 import registerRequest
+import requestAllGroups
 import setCookie
 import kotlin.js.Json
 
@@ -21,6 +23,7 @@ fun authPage() {
     var error by remember { mutableStateOf("") }
     var authStatus by remember { StateManager.authorized }
     var token by remember { StateManager.token }
+    var appGroups by remember { StateManager.groups }
 
     val onSuccess: (XMLHttpRequest, String) -> ((Event) -> dynamic)= { xhr, msg -> {
         if (xhr.status == 200.toShort()) {
@@ -34,6 +37,47 @@ fun authPage() {
                 tokenType = json["tokenType"] as String
             )
             token = tokenData
+            val onSuccess = { xhr: XMLHttpRequest -> { ev: Event ->
+                println(xhr.responseText)
+                val jsonArray: Array<Json> = JSON.parse(xhr.responseText)
+                val groupList: MutableList<StudyGroup> = mutableListOf()
+                jsonArray.forEach {
+                        json ->
+                    val coordinateJson: Json = JSON.parse(JSON.stringify(json["coordinates"]))
+                    val coordinates = Coordinates(
+                        x = coordinateJson["x"].toString().toFloat(),
+                        y = coordinateJson["y"].toString().toLong()
+                    )
+                    val adminJson: Json = JSON.parse(JSON.stringify(json["groupAdmin"]))
+                    val locationJson: Json = JSON.parse(JSON.stringify(adminJson["location"]))
+                    val location = Location(
+                        x = locationJson["x"].toString().toFloat(),
+                        y = locationJson["y"].toString().toInt(),
+                        z = locationJson["z"].toString().toInt()
+                    )
+                    val admin = Person(
+                        name = adminJson["name"].toString(),
+                        weight = adminJson["weight"].toString().toLong(),
+                        eyeColor = Color.valueOf((adminJson["eyeColor"].toString())),
+                        location = location
+                    )
+                    val group = StudyGroup(
+                        id = json["id"].toString().toLong(),
+                        coordinates = coordinates,
+                        creationDate = json["creationDate"].toString(),
+                        formOfEducation = FormOfEducation.valueOfOrNull(json["formOfEducation"].toString()),
+                        groupAdmin = admin,
+                        name = json["name"].toString(),
+                        owner = json["owner"].toString(),
+                        semesterEnum = Semester.valueOf(json["semesterEnum"].toString()),
+                        studentsCount = json["studentsCount"].toString().toInt()
+                    )
+                    groupList.add(group)
+                }
+                appGroups = groupList
+                println("Request finished ${appGroups.size} to ${groupList.size}")
+            }}
+            requestAllGroups(token!!, onSuccess)
             setCookie(Cookies.TOKEN, tokenData.accessToken)
             setCookie(Cookies.TOKEN_TYPE, tokenData.tokenType)
         } else {
@@ -43,7 +87,7 @@ fun authPage() {
     }
     val onError: (XMLHttpRequest) -> ((Event) -> dynamic)= { {
         error = "Server is unreachable"
-        null
+        0
     }
     }
 
@@ -68,7 +112,7 @@ fun authPage() {
                     }
                 })
             }
-            Div (attrs = {classes("auth-line", "auth-line")}) {
+            Div (attrs = {classes("auth-line")}) {
                 Div (attrs = {
                     classes("centered-container", "auth-button")
                     onClick {

@@ -100,6 +100,7 @@
 .full-screen {
     height: calc(100vh - var(--header-height));
     width: 100%;
+    box-sizing: border-box;
 }
 
 .auth-header {
@@ -151,4 +152,127 @@
     height: 25px;
     color: red;
     width: 100%;
+}
+
+.loading-screen {
+    font-weight: lighter;
+    font-size: 60px;
+}
+
+.main-page {
+    box-sizing: border-box;
+    padding: 20px 70px;
+}
+
+.loading-header {
+    font-size: 35px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 15px 70px;
+    border-bottom: 4px solid black;
+}
+
+.loading-header span {
+    opacity: 90%;
+    transition: 0.2s all;
+}
+
+.loading-header span:hover {
+    opacity: 70%;
+}
+
+.gif-container {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.table-page {
+    padding: 50px 150px;
+}
+
+.table-page h1 {
+    font-size: 40px;
+}
+
+.table-section {
+    margin-bottom: 40px;
+}
+
+.table {
+    width: 100%;
+}
+
+.table > div {
+    height: 50px;
+    margin: 10px 0;
+    border-bottom: 2px solid black;
+}
+
+.table > div:last-child {
+    border-bottom: none;
+}
+
+.table-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-row-group-info {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100px 150px 200px 200px;
+}
+
+.table-row-group-info span {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.table-row-group-config {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 250px 200px
+}
+
+.table-row-group-config span {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    font-size: 20px;
+}
+
+.group-info-panel {
+    position: relative;
+}
+
+.group-info-panel > div {
+    position: absolute;
+    top: -7px;
+    left: -7px;
+    padding: 5px;
+    visibility: hidden;
+    width: 400px;
+    background: white;
+    border: 2px solid black;
+    z-index: 1000;
+    transition: 0.2s all;
+    opacity: 0;
+}
+
+.group-info-panel:hover > div {
+    visibility: visible;
+    opacity: 100%;
+}
+
+.group-info-header {
+    margin-bottom: 15px;
 }

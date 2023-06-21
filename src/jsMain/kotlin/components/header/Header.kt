@@ -12,6 +12,7 @@ import router.Routes
 @Composable
 fun header() {
     val user by remember { StateManager.user }
+    val isLoadReady by remember { StateManager.isLoadReady }
     Div (attrs = {classes("header")}) {
         Div (attrs = {classes("row-container")}) {
             headerButton("Main", Routes.MAIN, 0)
@@ -21,7 +22,7 @@ fun header() {
         Div (attrs = {classes("row-container")}) {
             localeButton()
             Div (attrs = {classes("user-indicator", "centered-container")}) {
-                Text(if (user == null) "Not authorized" else user.toString())
+                Text(if (user == null) if (isLoadReady) "Not authorized" else "Loading..." else user.toString())
             }
             logoutButton()
         }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import data.Credentials
 import data.TokenData
+import data.groups.*
 import org.w3c.dom.events.Event
 import org.w3c.xhr.XMLHttpRequest
 import kotlin.js.Json
@@ -14,8 +15,8 @@ const val TIMEOUT = 2000
 
 fun authRequest(username: String,
                 password: String,
-                successCallback: (XMLHttpRequest, String) -> ((Event) -> dynamic),
-                errorCallback: (XMLHttpRequest) -> ((Event) -> dynamic)
+                successCallback: (XMLHttpRequest, String) -> ((Event) -> Unit),
+                errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)
 ) {
     val xhr = XMLHttpRequest()
     xhr.open("POST", "${BASE_URL}/auth/login", true)
@@ -34,8 +35,8 @@ fun authRequest(username: String,
 
 fun registerRequest(username: String,
                 password: String,
-                successCallback: (XMLHttpRequest, String) -> ((Event) -> dynamic),
-                errorCallback: (XMLHttpRequest) -> ((Event) -> dynamic)
+                successCallback: (XMLHttpRequest, String) -> ((Event) -> Unit),
+                errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)
 ) {
     val xhr = XMLHttpRequest()
     xhr.open("POST", "${BASE_URL}/auth/register", true)
@@ -51,11 +52,24 @@ fun registerRequest(username: String,
     xhr.send(JSON.stringify(json))
 }
 
-fun restoreUsername(tokenData: TokenData, successCallback: (XMLHttpRequest) -> ((Event) -> dynamic)) {
+fun restoreUsername(tokenData: TokenData, 
+                    successCallback: (XMLHttpRequest) -> ((Event) -> Unit),
+                    errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)) {
     val xhr = XMLHttpRequest()
     xhr.open("GET", "${BASE_URL}/auth/username", true)
     xhr.timeout = TIMEOUT
     xhr.setRequestHeader("Authorization", "${tokenData.tokenType} ${tokenData.accessToken}")
+    xhr.onload = successCallback(xhr)
+    xhr.onerror = errorCallback(xhr)
+    xhr.ontimeout = errorCallback(xhr)
+    xhr.send()
+}
+
+fun requestAllGroups(token: TokenData, successCallback: (XMLHttpRequest) -> (Event) -> Unit) {
+    val xhr = XMLHttpRequest()
+    println("Requesting groups")
+    xhr.open("GET", "${BASE_URL}/groups/all", true)
+    xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.onload = successCallback(xhr)
     xhr.send()
 }
