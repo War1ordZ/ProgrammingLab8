@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/groups")
@@ -61,6 +63,11 @@ public class StudyGroupController {
         group.setId(id);
         groupService.updateGroupById(group, id);
         return ResponseEntity.ok(group);
+    }
+    @GetMapping("/filter/{semester}")
+    public ResponseEntity<?> getAllBySemester(@PathVariable("semester")  String semester){
+        var filteredGroups = groupService.getAllBySemester(semester);
+        return ResponseEntity.ok(filteredGroups);
     }
 
     @DeleteMapping("/{id}")

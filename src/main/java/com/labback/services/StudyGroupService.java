@@ -1,5 +1,6 @@
 package com.labback.services;
 
+import com.labback.data.comparators.StudyGroupComparator;
 import com.labback.data.domain.groups.*;
 import com.labback.exceptions.GroupNotBelongToUserException;
 import com.labback.repositories.CoordinatesRepository;
@@ -11,13 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-
-import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +61,9 @@ public class StudyGroupService {
     }
 
     public List<StudyGroup> getAllGroups() {
-        return groupRepository.findAll();
+        List<StudyGroup> groups = groupRepository.findAll();
+        groups.sort(new StudyGroupComparator());
+        return groups;
     }
 
     public void updateGroupById(StudyGroup group, Long id) {
@@ -91,8 +88,11 @@ public class StudyGroupService {
         locationRepository.updateZ(id, newLocation.getZ());
     }
 
-    public List<StudyGroup> findAllBySemester(Semester semester){
-        return groupRepository.findAllBySemesterEnum(semester);
+    public List<StudyGroup> getAllBySemester(String semesterStr) {
+        Semester semester = Semester.valueOf(semesterStr.toUpperCase());
+        var groups = groupRepository.findAllBySemesterEnum(semester);
+        groups.sort(new StudyGroupComparator());
+        return groups;
     }
 
     private void checkBelonging(Long id, StudyGroup newGroup) {
