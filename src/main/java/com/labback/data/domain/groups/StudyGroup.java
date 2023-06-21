@@ -35,6 +35,7 @@ public class StudyGroup {
     private String creationDate;
 
     @Min(value = 1, message = "Students count must be greater than 0")
+    @NotNull
     private Integer studentsCount;
 
     @Enumerated(EnumType.STRING)

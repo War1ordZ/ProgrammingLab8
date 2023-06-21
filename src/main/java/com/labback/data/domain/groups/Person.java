@@ -31,7 +31,7 @@ public class Person {
     private String name;
 
     @NotNull
-    @Min(value = 0, message = "Weight must be greater than 0")
+    @Min(value = 1, message = "Weight must be greater than 0")
     @JsonProperty("weight")
     private Long weight;
 

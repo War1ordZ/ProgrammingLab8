@@ -19,7 +19,7 @@ public class Location {
 
     @NotNull
     @JsonProperty("x")
-    private float x;
+    private Float x;
 
     @NotNull
     @JsonProperty("y")
@@ -27,5 +27,5 @@ public class Location {
 
     @NotNull
     @JsonProperty("z")
-    private int z;
+    private Integer z;
 }
