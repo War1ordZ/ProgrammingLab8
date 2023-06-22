@@ -4,10 +4,14 @@ spring:
       ddl-auto: validate
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/studs
-    username: porunit
-    password: 358000
+    url: jdbc:postgresql://localhost:5432/studygroups
+    username: bd
+    password: aboba228
 server:
-  address: 10.196.143.243
+  address: 31.172.64.185
   port: 35664
-
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore.p12
+    enabled: true
+    key-store-password: 358000
