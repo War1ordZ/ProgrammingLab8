@@ -7,6 +7,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import components.table.menu.Menu
 import data.groups.StudyGroup
+import language.localizedDate
+import language.translatable
 import org.jetbrains.compose.web.dom.*
 import removeGroup
 
@@ -16,35 +18,36 @@ fun tableRow(group: StudyGroup) {
     val username by remember { StateManager.user }
     var activeGroup by remember { StateManager.activeGroup }
     var activeMenu by remember { StateManager.activeMenu }
+    val currentLocale by remember { StateManager.language }
     Div(attrs = { classes("table-row") }) {
         Div(attrs = { classes("table-row-group-info") }) {
             Span { Text("ID: ${group.id}") }
-            Span { Text("Name: ${group.name}") }
+            Span { Text("${translatable("table-name", currentLocale)}: ${group.name}") }
             Span(attrs = { classes("group-info-panel") }) {
-                B { Text("Group info") }
+                B { Text(translatable("table-group-info", currentLocale)) }
                 Div {
                     Div(attrs = { classes("group-info-header") }) {
-                        B { Text("Group info") }
+                        B { Text(translatable("table-group-info", currentLocale)) }
                     }
                     Div {
-                        Div { Text("Students: ${group.studentsCount}") }
-                        Div { Text("Form: ${group.formOfEducation}") }
-                        Div { Text("Semester: ${group.semesterEnum}") }
-                        Div { Text("Coordinates: x = ${group.coordinates!!.x} / y = ${group.coordinates!!.y}") }
+                        Div { Text("${translatable("students", currentLocale)}: ${group.studentsCount}") }
+                        Div { Text("${translatable("form", currentLocale)}: ${group.formOfEducation}") }
+                        Div { Text("${translatable("semester", currentLocale)}: ${group.semesterEnum}") }
+                        Div { Text("${translatable("coordinates", currentLocale)}: x = ${group.coordinates!!.x} / y = ${group.coordinates!!.y}") }
                     }
                 }
             }
             Span(attrs = { classes("group-info-panel") }) {
-                B { Text("Admin info") }
+                B { Text(translatable("admin-info", currentLocale)) }
                 Div {
                     Div(attrs = { classes("group-info-header") }) {
-                        B { Text("Admin info") }
+                        B { Text(translatable("admin-info", currentLocale)) }
                     }
                     Div {
-                        Div { Text("Name: ${group.groupAdmin!!.name}") }
-                        Div { Text("Eye color: ${group.groupAdmin!!.eyeColor}") }
-                        Div { Text("Weight: ${group.groupAdmin!!.weight}") }
-                        Div { Text("Location: x = ${group.groupAdmin!!.location!!.x} / " +
+                        Div { Text("${translatable("admin-name", currentLocale)}: ${group.groupAdmin!!.name}") }
+                        Div { Text("${translatable("eye-color", currentLocale)}: ${group.groupAdmin!!.eyeColor}") }
+                        Div { Text("${translatable("weight", currentLocale)}: ${group.groupAdmin!!.weight}") }
+                        Div { Text("${translatable("location", currentLocale)}: x = ${group.groupAdmin!!.location!!.x} / " +
                                 "y = ${group.groupAdmin!!.location!!.y} / " +
                                 "z = ${group.groupAdmin!!.location!!.z}") }
                     }
@@ -52,8 +55,8 @@ fun tableRow(group: StudyGroup) {
             }
         }
         Div(attrs = { classes("table-row-group-config") }) {
-            Span { Text("Created: ${group.creationDate}") }
-            Span { Text("Owner: ${group.owner}") }
+            Span { Text("${translatable("created", currentLocale)}: ${localizedDate(group.creationDate!!, currentLocale)}") }
+            Span { Text("${translatable("owner", currentLocale)}: ${group.owner}") }
             if (group.owner == username) {
                 Span (attrs = {
                     classes("table-row-group-config-button")

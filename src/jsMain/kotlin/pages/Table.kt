@@ -9,6 +9,7 @@ import components.table.menu.Menu
 import components.table.menu.menu
 import components.table.operationButton
 import components.table.table
+import language.translatable
 import org.jetbrains.compose.web.dom.Div
 import removeAllGroups
 
@@ -16,20 +17,21 @@ import removeAllGroups
 fun tablePage() {
     val token by remember { StateManager.token }
     var activeMenu by remember { StateManager.activeMenu }
+    var currentLocale by remember { StateManager.language }
     menu()
     Div (attrs = {classes("table-page", "full-screen")}) {
         Div (attrs = {classes("operation-buttons-container")}) {
-            operationButton("/icons/plus.svg", "Add group") {
+            operationButton("/icons/plus.svg", translatable("table-hint-add", currentLocale)) {
                 println("sus")
                 activeMenu = Menu.ADD
             }
-            operationButton("/icons/trash.svg", "Remove all your groups") {
+            operationButton("/icons/trash.svg", translatable("table-hint-remove", currentLocale)) {
                 removeAllGroups(token!!)
             }
-            operationButton("/icons/briefcase.svg", "Show all forms of education") {
+            operationButton("/icons/briefcase.svg", translatable("table-hint-education", currentLocale)) {
                 activeMenu = Menu.SHOW_FORMS_OF_EDUCATION
             }
-            operationButton("/icons/arrow.svg", "Show all semesters") {
+            operationButton("/icons/arrow.svg", translatable("table-hint-semesters", currentLocale)) {
                 activeMenu = Menu.SHOW_SEMESTERS
             }
         }

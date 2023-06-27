@@ -8,10 +8,7 @@ import app.softwork.routingcompose.HashRouter
 import components.header.header
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.WebSocket
-import pages.authPage
-import pages.loadingPage
-import pages.mainPage
-import pages.tablePage
+import pages.*
 
 @Composable
 fun router() {
@@ -27,7 +24,7 @@ fun router() {
                 tablePage()
             }
             route(Routes.OVERVIEW) {
-                Text("Overview")
+                overviewPage()
             }
             route(Routes.ANY) {
                 Text("404")

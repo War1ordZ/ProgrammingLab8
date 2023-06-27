@@ -7,6 +7,7 @@ import authRequest
 import bindWebSocket
 import data.TokenData
 import data.groups.*
+import language.translatable
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.events.Event
@@ -25,6 +26,7 @@ fun authPage() {
     var authStatus by remember { StateManager.authorized }
     var token by remember { StateManager.token }
     var appGroups by remember { StateManager.groups }
+    var currentLocale by remember { StateManager.language }
 
     val onSuccess: (XMLHttpRequest, String) -> ((Event) -> dynamic)= { xhr, msg -> {
         if (xhr.status == 200.toShort()) {
@@ -88,7 +90,7 @@ fun authPage() {
     }
     }
     val onError: (XMLHttpRequest) -> ((Event) -> dynamic)= { {
-        error = "Server is unreachable"
+        error = translatable("error-server-unreachable", currentLocale)
         0
     }
     }
@@ -96,10 +98,10 @@ fun authPage() {
     Div (attrs = { classes("centered-container", "full-screen") }) {
         Div (attrs = {classes("auth-menu")}) {
             Div (attrs = {classes("centered-container", "auth-header")}) {
-                Text("Please auth to proceed")
+                Text(translatable("auth-header", currentLocale))
             }
             Div (attrs = {classes("auth-line")}) {
-                Text("Login:")
+                Text(translatable("login", currentLocale) + ":")
                 Input(type = InputType.Text, attrs = {
                     onInput { ev ->
                         username = ev.value
@@ -107,7 +109,7 @@ fun authPage() {
                 })
             }
             Div (attrs = {classes("auth-line")}) {
-                Text("Password:")
+                Text(translatable("password", currentLocale) + ":")
                 Input(type = InputType.Password, attrs = {
                     onInput { ev ->
                         password = ev.value
@@ -122,7 +124,7 @@ fun authPage() {
                         authRequest(username, password, onSuccess, onError)
                     }
                 }) {
-                    Text("Login")
+                    Text(translatable("login", currentLocale))
                 }
 
                 Div (attrs = {
@@ -132,7 +134,7 @@ fun authPage() {
                         registerRequest(username, password, onSuccess, onError)
                     }
                 }) {
-                    Text("Register")
+                    Text(translatable("register", currentLocale))
                 }
             }
             Div (attrs = {classes("centered-container", "auth-error-message")}) {

@@ -14,5 +14,4 @@ object StateManager {
     val authorized = mutableStateOf(false)
     val groups = mutableStateOf<List<StudyGroup>>(listOf())
     var activeGroup = mutableStateOf<StudyGroup?>(null)
-    var webSocket: WebSocket? = null
 }

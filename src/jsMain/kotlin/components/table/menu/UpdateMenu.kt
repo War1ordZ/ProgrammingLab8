@@ -4,6 +4,7 @@ import StateManager
 import addGroup
 import androidx.compose.runtime.*
 import data.groups.*
+import language.translatable
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.selected
 import org.jetbrains.compose.web.dom.*
@@ -25,27 +26,28 @@ fun updateMenu() {
     var locationY by remember { mutableStateOf(activeGroup!!.groupAdmin!!.location!!.y.toString()) }
     var locationZ by remember { mutableStateOf(activeGroup!!.groupAdmin!!.location!!.z.toString()) }
     var activeMenu by remember { StateManager.activeMenu }
-    var token by remember { StateManager.token }
-    var user by remember { StateManager.user }
+    val token by remember { StateManager.token }
+    val user by remember { StateManager.user }
     var error by remember { mutableStateOf("") }
+    val currentLocale by remember { StateManager.language }
 
     if (activeGroup == null) {
         activeMenu = null
     }
     Div (attrs = { classes("menu") }) {
         Div (attrs = { classes("centered-container","menu-header") }) {
-            H1 { Text("Update group (id: ${activeGroup!!.id!!})") }
+            H1 { Text("${translatable("update-group", currentLocale)} (id: ${activeGroup!!.id!!})") }
         }
-        H2 { Text("Group info") }
+        H2 { Text(translatable("add-group-info", currentLocale)) }
         Div {
             Span {
-                Text("Name:")
+                Text(translatable("group-name", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     name = ev.value
                     if (name.isEmpty()) {
-                        error = "Name is empty"
+                        error = translatable("error-empty-group-name", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -56,13 +58,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Coordinates.X:")
+                Text(translatable("group-coordinate-x", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     coordinateX = ev.value
                     if (coordinateX.isEmpty()) {
-                        error = "X coordinate value is empty"
+                        error = translatable("error-coordinate-x-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -71,10 +73,10 @@ fun updateMenu() {
                         if (coordinateX.toFloat() > -156f) {
                             ""
                         } else {
-                            "Students must be > 0"
+                            translatable("error-coordinate-x-invalid", currentLocale)
                         }
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for X coordinate"
+                        translatable("error-coordinate-x-format", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.coordinates!!.x!!)
@@ -82,13 +84,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Coordinates.Y:")
+                Text(translatable("group-coordinate-y", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     coordinateY = ev.value
                     if (coordinateY.isEmpty()) {
-                        error = "Y coordinate value is empty"
+                        error = translatable("error-coordinate-y-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -97,7 +99,7 @@ fun updateMenu() {
                         coordinateY.toLong()
                         ""
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for Y coordinate"
+                        translatable("error-coordinate-y-format", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.coordinates!!.y!!)
@@ -105,13 +107,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Students:")
+                Text(translatable("group-students", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     students = ev.value
                     if (students.isEmpty()) {
-                        error = "Students value is empty"
+                        error = translatable("error-students-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -120,10 +122,10 @@ fun updateMenu() {
                         if (students.toInt() > 0) {
                             ""
                         } else {
-                            "Students must be > 0"
+                            translatable("error-students-invalid", currentLocale)
                         }
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for students"
+                        translatable("error-students-format", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.studentsCount!!)
@@ -131,7 +133,7 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Form of education:")
+                Text(translatable("group-education-form", currentLocale))
             }
             Select (attrs = {
                 onChange { ev ->
@@ -162,7 +164,7 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Semester:")
+                Text(translatable("group-semester", currentLocale))
             }
             Select (attrs = {
                 onChange { ev ->
@@ -186,16 +188,16 @@ fun updateMenu() {
                 }) { Text("SIXTH") }
             }
         }
-        H2 { Text("Group admin") }
+        H2 { Text(translatable("group-admin-info", currentLocale)) }
         Div {
             Span {
-                Text("Name:")
+                Text(translatable("group-admin-name", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     adminName = ev.value
                     if (adminName.isEmpty()) {
-                        error = "Admin name is empty"
+                        error = translatable("error-admin-name-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -206,13 +208,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Weight:")
+                Text(translatable("group-admin-weight", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     adminWeight = ev.value
                     if (adminWeight.isEmpty()) {
-                        error = "Admin weight value is empty"
+                        error = translatable("error-admin-weight-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -221,10 +223,10 @@ fun updateMenu() {
                         if (adminWeight.toLong() > 0) {
                             ""
                         } else {
-                            "Weight must be > 0"
+                            translatable("error-admin-weight-invalid", currentLocale)
                         }
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for weight"
+                        translatable("error-admin-weight-incorrect", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.groupAdmin!!.weight!!)
@@ -232,7 +234,7 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Eye color:")
+                Text(translatable("group-admin-eye-color", currentLocale))
             }
             Select (attrs = {
                 onChange { ev ->
@@ -258,13 +260,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Location.X:")
+                Text(translatable("group-admin-location-x", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     locationX = ev.value
                     if (locationX.isEmpty()) {
-                        error = "X location value is empty"
+                        error = translatable("error-admin-location-x-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -273,7 +275,7 @@ fun updateMenu() {
                         locationX.toFloat()
                         ""
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for location X"
+                        translatable("error-admin-location-x-incorrect", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.groupAdmin!!.location!!.x)
@@ -281,13 +283,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Location.Y:")
+                Text(translatable("group-admin-location-y", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     locationY = ev.value
                     if (locationY.isEmpty()) {
-                        error = "Y location value is empty"
+                        error = translatable("error-admin-location-y-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -296,7 +298,7 @@ fun updateMenu() {
                         locationY.toInt()
                         ""
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for location Y"
+                        translatable("error-admin-location-y-incorrect", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.groupAdmin!!.location!!.y!!)
@@ -304,13 +306,13 @@ fun updateMenu() {
         }
         Div {
             Span {
-                Text("Location.Z:")
+                Text(translatable("group-admin-location-z", currentLocale))
             }
             Input(type = InputType.Text, attrs = {
                 onInput { ev ->
                     locationZ = ev.value
                     if (locationZ.isEmpty()) {
-                        error = "Z location value is empty"
+                        error = translatable("error-admin-location-z-empty", currentLocale)
                         return@onInput
                     } else {
                         error = ""
@@ -319,7 +321,7 @@ fun updateMenu() {
                         locationZ.toInt()
                         ""
                     } catch (ex: NumberFormatException) {
-                        "Incorrect value for location Z"
+                        translatable("error-admin-location-z-incorrect", currentLocale)
                     }
                 }
                 defaultValue(activeGroup!!.groupAdmin!!.location!!.z)
@@ -329,10 +331,11 @@ fun updateMenu() {
             Text(error)
         }
         Div {
-            menuButton("Cancel") {
+            menuButton(translatable("button-cancel", currentLocale)) {
                 activeMenu = null
+                activeGroup = null
             }
-            menuButton("Proceed") {
+            menuButton(translatable("button-proceed", currentLocale)) {
                 if (error.isNotBlank()
                     || name.isBlank()
                     || coordinateX.isBlank()
@@ -369,6 +372,7 @@ fun updateMenu() {
                 )
                 updateGroup(activeGroup!!.id!!, group, token!!)
                 activeMenu = null
+                activeGroup = null
             }
         }
     }
