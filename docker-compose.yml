@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  app:
+    build: .
+    container_name: spring_app
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_JDBC_URL=jdbc:postgresql://postgres:5432/db
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    networks:
+      - app_network
+
+  frontend:
+    image: porunit/is-client:latest
+    container_name: frontend
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - app
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
