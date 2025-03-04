@@ -7,9 +7,55 @@ import org.w3c.dom.events.Event
 import org.w3c.xhr.XMLHttpRequest
 import kotlin.js.Json
 import kotlin.js.json
+import org.w3c.files.File
+import org.w3c.xhr.FormData
 
-const val BASE_URL = "armemius.ru:35664"
+
+const val BASE_URL = "localhost:8080"
 const val TIMEOUT = 2000
+
+external interface ImportHistoryData {
+    var id: Number
+    var username: String
+    var status: String
+    var importedCount: Number
+    var timestamp: String
+}
+fun importFile(
+    file: File,
+    token: TokenData,
+    successCallback: (XMLHttpRequest) -> (Event) -> Unit,
+    errorCallback: (XMLHttpRequest) -> (Event) -> Unit
+) {
+    val xhr = XMLHttpRequest()
+    xhr.open("POST", "http://$BASE_URL/api/import", true)
+    xhr.timeout = TIMEOUT
+    xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
+
+    xhr.onload = successCallback(xhr)
+    xhr.onerror = errorCallback(xhr)
+    xhr.ontimeout = errorCallback(xhr)
+
+    val formData = FormData()
+    formData.append("file", file) // Ключ "file" должен совпадать с @RequestParam("file") на сервере
+
+    xhr.send(formData)
+}
+
+fun requestImportHistory(
+    token: TokenData,
+    successCallback: (XMLHttpRequest) -> (Event) -> Unit,
+    errorCallback: (XMLHttpRequest) -> (Event) -> Unit
+) {
+    val xhr = XMLHttpRequest()
+    xhr.open("GET", "http://${BASE_URL}/api/import/history", true)
+    xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
+    xhr.timeout = TIMEOUT
+    xhr.onload = successCallback(xhr)
+    xhr.onerror = errorCallback(xhr)
+    xhr.ontimeout = errorCallback(xhr)
+    xhr.send()
+}
 
 fun authRequest(username: String,
                 password: String,
@@ -17,7 +63,7 @@ fun authRequest(username: String,
                 errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)
 ) {
     val xhr = XMLHttpRequest()
-    xhr.open("POST", "https://${BASE_URL}/auth/login", true)
+    xhr.open("POST", "http://${BASE_URL}/auth/login", true)
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.timeout = TIMEOUT
     xhr.ontimeout = errorCallback(xhr)
@@ -37,7 +83,7 @@ fun registerRequest(username: String,
                 errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)
 ) {
     val xhr = XMLHttpRequest()
-    xhr.open("POST", "https://${BASE_URL}/auth/register", true)
+    xhr.open("POST", "http://${BASE_URL}/auth/register", true)
     xhr.setRequestHeader("Content-Type", "application/json")
     xhr.timeout = TIMEOUT
     xhr.ontimeout = errorCallback(xhr)
@@ -54,7 +100,7 @@ fun restoreUsername(tokenData: TokenData,
                     successCallback: (XMLHttpRequest) -> ((Event) -> Unit),
                     errorCallback: (XMLHttpRequest) -> ((Event) -> Unit)) {
     val xhr = XMLHttpRequest()
-    xhr.open("GET", "https://${BASE_URL}/auth/username", true)
+    xhr.open("GET", "http://${BASE_URL}/auth/username", true)
     xhr.timeout = TIMEOUT
     xhr.setRequestHeader("Authorization", "${tokenData.tokenType} ${tokenData.accessToken}")
     xhr.onload = successCallback(xhr)
@@ -65,7 +111,7 @@ fun restoreUsername(tokenData: TokenData,
 
 fun removeGroup(id: Long, token: TokenData) {
     val xhr = XMLHttpRequest()
-    xhr.open("DELETE", "https://${BASE_URL}/groups/${id}", true)
+    xhr.open("DELETE", "http://${BASE_URL}/groups/${id}", true)
     xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.send()
     StateManager.activeGroup.value = null
@@ -73,14 +119,14 @@ fun removeGroup(id: Long, token: TokenData) {
 
 fun removeAllGroups(token: TokenData) {
     val xhr = XMLHttpRequest()
-    xhr.open("DELETE", "https://${BASE_URL}/groups/all", true)
+    xhr.open("DELETE", "http://${BASE_URL}/groups/all", true)
     xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.send()
 }
 
 fun addGroup(group: StudyGroup, token: TokenData) {
     val xhr = XMLHttpRequest()
-    xhr.open("POST", "https://${BASE_URL}/groups/add", true)
+    xhr.open("POST", "http://${BASE_URL}/groups/add", true)
     xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.setRequestHeader("Content-Type", "application/json")
     println(group.getJson())
@@ -90,7 +136,7 @@ fun addGroup(group: StudyGroup, token: TokenData) {
 fun updateGroup(id: Long, group: StudyGroup, token: TokenData) {
     println("update")
     val xhr = XMLHttpRequest()
-    xhr.open("POST", "https://${BASE_URL}/groups/${id}", true)
+    xhr.open("POST", "http://${BASE_URL}/groups/${id}", true)
     xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.setRequestHeader("Content-Type", "application/json")
     println(group.getJson())
@@ -99,7 +145,7 @@ fun updateGroup(id: Long, group: StudyGroup, token: TokenData) {
 
 fun requestAllGroups(token: TokenData, successCallback: (XMLHttpRequest) -> (Event) -> Unit) {
     val xhr = XMLHttpRequest()
-    xhr.open("GET", "https://${BASE_URL}/groups/all", true)
+    xhr.open("GET", "http://${BASE_URL}/groups/all", true)
     xhr.setRequestHeader("Authorization", "${token.tokenType} ${token.accessToken}")
     xhr.onload = successCallback(xhr)
     xhr.send()
@@ -107,7 +153,7 @@ fun requestAllGroups(token: TokenData, successCallback: (XMLHttpRequest) -> (Eve
 
 fun bindWebSocket(token: TokenData, loadGroups: (XMLHttpRequest) -> (Event) -> Unit) {
     webSocket?.close()
-    webSocket = WebSocket("wss://${BASE_URL}/websocket")
+    webSocket = WebSocket("ws://${BASE_URL}/websocket")
     val websocket = webSocket!!
 
     websocket.onmessage = {

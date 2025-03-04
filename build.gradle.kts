@@ -38,7 +38,7 @@ kotlin {
         }
         val jsTest by getting {
             dependencies {
-                implementation(kotlin("test-js"))
+                //implementation(kotlin("test-js"))
             }
         }
     }

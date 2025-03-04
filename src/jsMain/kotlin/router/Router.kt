@@ -1,14 +1,15 @@
 package router
 
-import Languages
-import StateManager
 import androidx.compose.runtime.*
 import app.softwork.routingcompose.BrowserRouter
-import app.softwork.routingcompose.HashRouter
 import components.header.header
 import org.jetbrains.compose.web.dom.Text
-import org.w3c.dom.WebSocket
-import pages.*
+import pages.ImportHistoryPage  // убедитесь, что путь корректный
+import pages.authPage
+import pages.loadingPage
+import pages.mainPage
+import pages.overviewPage
+import pages.tablePage
 
 @Composable
 fun router() {
@@ -26,6 +27,9 @@ fun router() {
             route(Routes.OVERVIEW) {
                 overviewPage()
             }
+            route(Routes.IMPORT) { // Новый маршрут
+                ImportHistoryPage()
+            }
             route(Routes.ANY) {
                 Text("404")
             }
@@ -34,7 +38,5 @@ fun router() {
         } else {
             loadingPage()
         }
-
     }
 }
-
